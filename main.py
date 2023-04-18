@@ -123,27 +123,23 @@ def get_contents(rating: str):
 def pickle_function(titulo):
     #Utilizo un manejo de excepciones porque al ingresar un titulo que no se encuentra en el dataset tira un error.
     try:
-        id_show = (productos[productos["title"] == titulo].index)[0]
-        
-        #Divido el conjunto de géneros y creo nuevas columnas para cada género.
-        genres = productos['listed_in'].str.get_dummies(sep=', ')
-
-        #Calculo la similitud coseno entre todas las películas a partir de sus géneros.
         from sklearn.metrics.pairwise import cosine_similarity
-        similarities = cosine_similarity(genres)
+        from sklearn.feature_extraction.text import CountVectorizer
+        id_show = (productos[productos["title"] == titulo].index)[0]
+    
+        # calcular la similitud coseno a partir de los géneros
+        vectorizer = CountVectorizer()
+        title_vectors = vectorizer.fit_transform(productos['listed_in'])
+        title_similarities = cosine_similarity(title_vectors)
 
-        #Encuentro las películas más similares a la que tiene el ID 1.
-        similar_movies = list(enumerate(similarities[id_show]))
-        sorted_similar_movies = sorted(similar_movies, key=lambda x: x[1], reverse=True)[0:10]
+        # encontrar las películas más similares a la película con el ID 1
+        similar_movies = list(enumerate(title_similarities[id_show]))
+        sorted_similar_movies = sorted(similar_movies, key=lambda x: x[1], reverse=True)[1:6]
 
-        #Imprimo los títulos de las películas recomendadas.
+        # imprimir los títulos de las películas recomendadas
         recommended_movies = [productos.iloc[i[0]]['title'] for i in sorted_similar_movies]
 
-        #Como hay contenidos que se encuentran en mas de una plataforma, elimino los resultados iguales.
-        if titulo in recommended_movies:
-            recommended_movies.remove(titulo)
-            
-        return recommended_movies[:5]
+        return recommended_movies
     except IndexError:
         return "No hay ninguna pelicula o serie con ese nombre"
 
