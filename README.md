@@ -7,9 +7,10 @@ Esta API te permite obtener información sobre series y películas de diversas p
 Requisitos
 
     Python3
-    FastApi (se puede instalar con pip install fastapi)
-    Pandas (se puede instalar con pip install pandas)
-    Scikit-Learn (se puede instalar con pip install scikit-learn)
+    Libreria FastApi (se puede instalar con pip install fastapi)
+    Libreria Pandas (se puede instalar con pip install pandas)
+    Libreria Scikit-Learn (se puede instalar con pip install scikit-learn)
+    Cuenta de Render
     
 ## **ETL Realizado**
 
@@ -36,7 +37,7 @@ Película (sólo película, no serie, ni documentales, etc) con mayor duración 
 
 Ejemplo:
 
-`get_max_duration(2012, "amazon", "min")`
+`/get_max_duration/2012/amazon/min`
 
 ```
     {
@@ -50,7 +51,7 @@ Cantidad de películas (sólo películas, no series, ni documentales, etc) segú
 
 Ejemplo:
 
-`get_score_count("amazon", 3.5, 2012)`
+`/get_score_count/amazon/3.5/2012`
 
 ```
     {
@@ -67,7 +68,7 @@ Cantidad de películas (sólo películas, no series, ni documentales, etc) segú
 
 Ejemplo:
 
-`get_count_platform("amazon")`
+`/get_count_platform/amazon`
 
 ```
     {
@@ -82,7 +83,7 @@ Actor que más se repite según plataforma y año. La función devuelve sólo el
 
 Ejemplo:
 
-`get_actor("amazon", 2012)`
+`/get_actor/amazon/2012`
 
 ```
     {
@@ -99,7 +100,7 @@ La cantidad de productos disponibles en streaming que se publicaron por país y 
 
 Ejemplo:
 
-`prod_per_county("movie", "india", 2012)`
+`/prod_per_county/movie/india/2012`
 
 ```
     {
@@ -115,12 +116,12 @@ La cantidad total de contenidos disponibles en streaming según el rating de aud
 
 Ejemplo:
 
-`get_contents("13+")`
+`/get_contents/g`
 
 ```
     {
-    "rating": "13+",
-    "contenido": 2117
+      "rating": "g",
+      "contenido": 1311
     }
 ```
 
@@ -130,15 +131,15 @@ Esta función utiliza un modelo de machine learning para obtener cinco recomenda
 
 Ejemplo:
 
-`get_recommendation("peaky blinders")`
+`/get_recommendation/zodiac`
 
 ```
     [
-    "marcella",
-    "the irregulars",
-    "the one",
-    "criminal: uk",
-    "get even"
+      "only god forgives",
+      "the machinist",
+      "the beguiled",
+      "the clovehitch killer",
+      "croupier"
     ]
 ```
 
