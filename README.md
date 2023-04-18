@@ -10,6 +10,23 @@ Requisitos
     FastApi (se puede instalar con pip install fastapi)
     Pandas (se puede instalar con pip install pandas)
     Scikit-Learn (se puede instalar con pip install scikit-learn)
+    
+## **ETL Realizado**
+
+Estos fueron los cambios realizados a partir de lo pedido en el trabajo:
+
+    Generé un id: Cada id se compone de la primera letra del nombre de la plataforma, seguido del show_id ya presente en los datasets (ejemplo para títulos de Amazon = as123).
+
+    Los valores nulos del campo rating se reemplazaron por el string “G” (corresponde al maturity rating: “general for all audiences”).
+
+    La fecha de subida a la plataforma se puso en formato AAAA-mm-dd.
+
+    Los campos de texto están en minúsculas, sin excepciones.
+
+    El campo duration lo convertí en dos campos: duration_int y duration_type. El primero esun integer y el segundo un string indicando la unidad de medición de duración: min (minutos) o season (temporadas).
+
+También unifique los datasets de las plataformas en un único archivo csv para un acceso mas facil a la información y limpié la columna de géneros, que es la utilizada para el modelo de recomendación hecho mas adelante.
+
 
 ## **Funciones disponibles**
 
