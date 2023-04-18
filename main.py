@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 import pandas
+import pickle
 
 productos = pandas.read_csv("data/productos.csv")
 app = FastAPI()
@@ -118,9 +119,9 @@ def get_contents(rating: str):
 
 
 #7) Recomendador de series y peliculas
-@app.get('/get_recommendation/{titulo}')
-def get_recommendation(titulo: str):
-
+#Por problemas con la limitación de memoria en render, tuve que armar la función en un archivo pickle.
+def pickle_function(titulo):
+    #Utilizo un manejo de excepciones porque al ingresar un titulo que no se encuentra en el dataset tira un error.
     try:
         id_show = (productos[productos["title"] == titulo].index)[0]
         
@@ -145,3 +146,20 @@ def get_recommendation(titulo: str):
         return recommended_movies[:5]
     except IndexError:
         return "No hay ninguna pelicula o serie con ese nombre"
+
+#Abro el archivo en modo de escritura binario.
+with open('funcion.pickle', 'wb') as archivo:
+    #Guardo la función en el archivo pickle.
+    pickle.dump(pickle_function, archivo)
+
+
+@app.get('/get_recommendation/{titulo}')
+def get_recommendation(titulo: str):
+
+    with open('funcion.pickle', 'rb') as archivo:
+        #Cargo la función desde el archivo pickle
+        pickle_function = pickle.load(archivo)
+        
+    recommendation_list = pickle_function(titulo)
+
+    return recommendation_list
